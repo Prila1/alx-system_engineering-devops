@@ -1,20 +1,8 @@
-#!/bin/bash
-#logical(boolean) operators in bash
-a=12;
-b=22;
-zero=0;
+#!/usr/bin/env bash
+#print "Best school" to stdout 10 times using until loop
 
-##And operator (&&)
-if [ "$a" -gt 11 ] && [ "$b" -lt 50 ]; then
-    echo "$a is greater than 11 and $b is less than 50";
-fi
-
-## Or operator
-if [ "$a" -gt 19 ] || [  "$b" -lt 50 ]; then
-    echo "One condition is true";
-fi
-
-## Not operator
-if [ ! "$zero" -gt 0 ]; then 
-    echo "Yeah, $zero is not greater than 0";
-fi
+printed=10;
+until [ "$printed" -lt 1 ]; do
+    echo "Best School";
+    printed=$((printed - 1 ));
+done
