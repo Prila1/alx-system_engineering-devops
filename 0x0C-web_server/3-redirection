@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+## setup nginx redirect
+sudo apt-get update
+sudo apt-get -y install nginx
+printf "http {\n\tserver {\n\t\tlisten 80;\n\t\troot /var/www/data/;\n\t\tlocation /redirect_me {\n\t\t\trewrite ^/ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;\n\t\t}\n\t}\n}\nevents{}\n" | sudo tee /etc/nginx/nginx.conf >> /dev/null
+sudo mkdir -p /var/www/data
+printf "Hello World!\n" | sudo tee /var/www/data/index.html >> /dev/null
+sudo service nginx start
