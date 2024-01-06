@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# Sets up 404 error
+
+sudo apt-get update
+sudo apt-get -y install nginx
+printf "
+http {
+        server {
+                listen 80;
+                root /var/www/data/;
+                index index.html;
+                error_page 404 /404.html;
+
+                location /redirect_me {
+                        rewrite ^/ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
+                }
+                location /404.html {
+                        root /var/www/data/error;
+                        internal;
+                }
+        }
+}
+events {}
+" | sudo tee /etc/nginx/nginx.conf >> /dev/null
+mkdir -p /var/www/data/error
+printf "Hello World!\n" | sudo tee /var/www/data/index.html >> /dev/null
+printf "Ceci n'est pas une page\n" | sudo tee /var/www/data/error/404.html >> /dev/null
+if [ "$(pgrep -c nginx)" -le 0 ]; then
+	sudo service nginx start
+else
+	sudo service nginx restart
+fi
