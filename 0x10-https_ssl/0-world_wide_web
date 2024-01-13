@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# World Wide Web
+
+check_dns () {
+	if [[ -z $2 ]]; then
+		for s_domain in 'www' 'lb-01' 'web-01' 'web-02'; do
+			dig "$s_domain.$1" | grep -A1 'ANSWER SECTION:' | tail -1 | awk -v s_d="$s_domain" '{print "The subdomain " s_d " is a " $4 " record and points to " $5}'
+		done
+		else
+			dig "$2.$1" | grep -A1 'ANSWER SECTION:' | tail -1 | awk -v s_d="$2" '{print "The subdomain " s_d " is a " $4 " record and points to " $5}'
+	fi
+}
+
+check_dns "$@"
